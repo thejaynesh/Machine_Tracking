@@ -17,18 +17,8 @@
                             <li><a href="deletelab.php">Delete Lab</a></li>
                         </ul>
                     </li>
-                    <li class="">
-                        <a href="#machinemenu" data-toggle="collapse" aria-expanded="false">Machine</a>
-                        <ul class="collapse list-unstyled" id="machinemenu">
-                            <li><a href="addmc.php">Add Machine</a></li>
-                            <li><a href="deletemc.php">Delete Machine</a></li>
-                            <li><a href="upgrademc.php">Upgrade Machine</a></li>
-                            <li><a href="viewmc.php">View Machine</a></li>
-                            <li><a href="new_machines.php">View Unpositioned Machine</a></li>
-                            <li><a href="viewonrepairpc.php">View Machines on Repair</a></li>
-                            <li><a href="posmc.php">Position New Machines</a></li>
-                            <li><a href="scrapmc.php">Scrap Machine</a></li>
-                        </ul>
+                    <li>
+                        <a href="managemachine.php">Manage Machine</a>
                     </li>
 
                     <li class="">
