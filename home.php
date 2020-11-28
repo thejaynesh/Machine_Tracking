@@ -18,7 +18,7 @@
 <body background="#eeeeee">
         <div class="wrapper">
          <div class="wrapper">
-                <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navbar.php"; 
+                <?php if (isset($_SESSION['id'])&&$_SESSION['role']=='0') include "navnew.php"; 
                 else if(isset($_SESSION['id'])&&$_SESSION['role']=='1')  include "navbar_faculty.php";
                 else include "navbar_tech.php";?>
            <div class="container-fluid row" id="content">
