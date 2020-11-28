@@ -3,8 +3,8 @@
                 <i class="fas fa-arrow-left"></i>
             </div>
 
-          <div class="sidebar-header"><a href="homev2.php">
-<img src="img/digi.png" height="100" width="125"></a>
+          <div class="sidebar-header"><center><a href="homev2.php">
+<img src="img/digi.png" height="100" width="125"></a></center>
 
             </div>
 
