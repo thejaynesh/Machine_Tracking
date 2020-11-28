@@ -55,7 +55,7 @@
                         <ul class="nav navbar-nav ml-auto">   
                             <li class="nav-item">
                             <a class="nav-link" href="#"><?php
-   echo "You are logged in as - ".$_SESSION['name']." ".$_SESSION['lname']
+   echo "HI - ".$_SESSION['name']." ".$_SESSION['lname']
 ?></a>
                             </li>
                             <li class="nav-item">
