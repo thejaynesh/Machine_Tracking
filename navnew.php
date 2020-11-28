@@ -9,7 +9,7 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>DIgiTrack</p>
+                <p><a href="homev2.php">Home</a></p>
                 <li>
                         <a href="searchpc.php">Search Computer</a>
                     </li>
