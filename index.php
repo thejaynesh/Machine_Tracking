@@ -29,8 +29,10 @@
                 {
                     $_SESSION['id'] = $row['member_id'];
                     $_SESSION['role'] = $row['role'];
+                    $_SESSION['name'] = $row['first_name'];
+                    $_SESSION['lname'] = $row['last_name'];
 
-                    header("Location: home.php");
+                    header("Location: homev2.php");
                     return;
                 }
                 else
@@ -44,30 +46,32 @@
         }
     }
 ?>
-
-<html>
+<!DOCTYPE html>
+<html >
 <head>
-    <title>Machine Tracking</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width = device-width, initial-scale = 1">
+  <meta charset="UTF-8">
+  <title>DigiTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
 
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-    <link rel="stylesheet" type="text/css" href="style5.css">
+      <link rel="stylesheet" href="loginassets/css/style.css">
 
-    <style>
-        .input-group-addon {
-        min-width:150px;
-        text-align:left;
-    }
-    </style>
+  
 </head>
-<body>
 
-    <div class="wrapper" id="add-nav">
-    <?php include 'navbar_index.php';?>
-    <h1>Machine Tracking</h1>
-    </div>
+<body>
+  <div class="container">
+	<header>
+		<h1>
+			<a href="#">
+				<img src="logo.png" alt="Authentic Collection" >
+			</a>
+		</h1>
+		
+	</header>
+	<br>
+    <h3 class="text-center">Sign In</h3>
     <?php
         if ( isset($_SESSION['error']) )
         {
@@ -80,38 +84,42 @@
             unset($_SESSION['success']);
         }
     ?>
-    <div class="row">
+	<form method="POST" action="index.php" >
+                
+                                        
+                                            <input type="radio" name="role" id="cash" value="0" checked>
+                                            &nbsp Administrator &nbsp
+                                            <span class="check"></span>
+                                        
+                                            <input type="radio" name="role" id="cheque"  value="1" >
+                                            &nbsp Faculty &nbsp
+                                            <span class="check"></span>
+                                        
+                                            <input type="radio" name="role" id="demand"  value="2" >
+                                            &nbsp Technician &nbsp
+                                            <span class="check"></span>
+                                        
+                                    
+                                    <hr>
+		<label>
+			<span class="label-text">User-Id</span>
+			<input type="text" name="id" id="id" >
+		</label>
+		<label class="password">
+			<span class="label-text">Password</span>
+			
+		
+			<input type="password" name="pass" id="pass" >
+		</label>
+		<br>
+		<div class="text-center">
+			<input type="submit" value="Log in">
+		</div>
+	</form>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-        <p class ="col-xs-12"style="font-size:22px">Log In</p><br>
+    <script src="loginassets/js/index.js"></script>
 
-            <form method="POST" action="index.php" class="col-xs-5">
-
-                <p>Role : &nbsp&nbsp&nbsp
-                <input type="radio" name="role" value="0"> Admin &nbsp&nbsp&nbsp
-                <input type="radio" name="role" value="1" checked> Faculty &nbsp&nbsp&nbsp        
-                <input type="radio" name="role" value="2"> Technician       
-                </p>
-
-                <div class="input-group">
-                <span class="input-group-addon">ID</span>
-                <input type="text" name="id" id="id" class="form-control" required placeholder="Enter your id">
-                <br>
-            </div>
-            <br>
-                <div class="input-group">
-                <span class="input-group-addon">Password</span>
-                <input type="password" name="pass" id="pass" class="form-control" required="" placeholder="Enter Password">
-                <br>
-            </div>
-            <br>
-            <input type="submit" value="Log In" class="btn btn-info">
-            </form>
-        </div>
-    </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
-    </script>
 </body>
 </html>
