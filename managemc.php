@@ -78,11 +78,11 @@ td:hover{
             <br><br><br>
             <center> 
 <table >
-<tr cellspacing="40"><td ><a href="viewmc.php">
+<tr cellspacing="40"><td ><a href="viewmcv2.php">
     <img src="img/icons/viewmachine1.png" height="150"><br><br><font size ="5" color="black">  <center>View Machine</center></font></a> </td>
-    <td ><a href="addmc.php">
+    <td ><a href="addmcv2.php">
     <img src="img/icons/addmachine.png" height="150"><br><br><font size ="5" color="black">  <center>Add Machine</center></font></a> </td>
-    <td ><a href="deletemc.php">
+    <td ><a href="deletemcv2.php">
     <img src="img/icons/addmachine.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Machine</center></font></a> </td>
     <td ><a href="upgrademc.php">
     <img src="img/icons/UpgradeMachine1.png" height="150"><br><br><font size ="5" color="black">  <center>Upgrade Machine</center></font></a> </td>
