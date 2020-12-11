@@ -65,7 +65,7 @@
 	<header>
 		<h1>
 			<a href="#">
-				<img src="logo.png" alt="Authentic Collection" >
+				<img src="img/digi_dark.png" alt="DigiTrack" >
 			</a>
 		</h1>
 		
