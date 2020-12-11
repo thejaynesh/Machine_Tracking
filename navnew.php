@@ -11,7 +11,7 @@
             <ul class="list-unstyled components">
                 <p><a href="homev2.php">Home</a></p>
                 <li>
-                        <a href="searchpc.php">Search Computer</a>
+                        <a href="searchpcv2.php">Search Computer</a>
                     </li>
                 <li>
                     <a href="managemc.php">Manage Machine</a>
