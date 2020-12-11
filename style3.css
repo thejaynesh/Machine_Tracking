@@ -19,7 +19,11 @@ a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
-
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
 .navbar {
     padding: 15px 10px;
     background: #fff;
@@ -179,6 +183,10 @@ a.article{
     color: #1e0042 !important;
 }
 a.article:hover {
+    background: #1e0042 !important;
+    color: #f2f2f2 !important;
+}
+button.btn-my:hover {
     background: #1e0042 !important;
     color: #f2f2f2 !important;
 }
