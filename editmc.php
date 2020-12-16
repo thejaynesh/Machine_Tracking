@@ -152,7 +152,7 @@
         }
     }
 ?>
-<html>
+<html> 
 <head>
     <title>Machine Tracking</title>
     <meta charset="utf-8">
@@ -192,7 +192,7 @@
     ?>
 
     <form method="POST" action="editmc.php" class="col-xs-5">
-
+    <div class="form-group">
     <div class="input-group">
     <span class="input-group-addon">MAC ADDRESS </span>
     <input type="text" value="<?= $mac_addr ?>" class="form-control" disabled> </div><br/>
@@ -433,6 +433,7 @@
 
     <input type="submit" value="Upgrade Machine" class="btn btn-info">
     <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    </div>
     </form>
 
     </div>
