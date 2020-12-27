@@ -26,7 +26,7 @@
         $stmt = $pdo->prepare($sql);
         $stmt->execute(array(':id' => $_POST['id']));
         $_SESSION['success'] = 'Member Removed Successfully';
-        header( 'Location: home.php' ) ;
+        header( 'Location: homev2.php' ) ;
         return;
     }
     $stmtread = $pdo->prepare("SELECT * FROM member where id = :id");
@@ -35,7 +35,7 @@
     if ( $row === false )
     {
         $_SESSION['error'] = 'No Member Found';
-        header( 'Location: delete_member.php' ) ;
+        header( 'Location: delete_memberv2.php' ) ;
         return;
     }
     $first_name = htmlentities($row['first_name']);
