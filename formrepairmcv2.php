@@ -11,7 +11,7 @@
     }
     if(isset($_POST['cancel']))
     {
-        header("Location: home.php");
+        header("Location: homev2.php");
         return;
     }
     if(isset($_GET['mc_id']))
@@ -23,7 +23,7 @@
         if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['fault']) < 1 || strlen($_POST['cost']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required<br>";
-            header('Location: fromrepairmc.php?mc_id='.$_GET['mc_id']);
+            header('Location: formrepairmcv2.php?mc_id='.$_GET['mc_id']);
             return;
         }
         else
@@ -35,7 +35,7 @@
             if($row === FALSE)
             {
                 $_SESSION['error'] = "Invalid MAC ADDRESS";
-                header('Location: fromrepairmc.php?mc_id='.$_GET['mc_id']);
+                header('Location: formrepairmcv2.php?mc_id='.$_GET['mc_id']);
                 return;
             }
             $mid = $row['machine_id'];
@@ -49,7 +49,7 @@
                  $stmt = $pdo->prepare('UPDATE machine SET state = "ACTIVE" WHERE machine_id = :mid');
                     $stmt->execute(array(':mid' => $mid));
 
-                $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = "0000-00-00"');
+                $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = 0000-00-00');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => date('y-m-d'), ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
 
                 $stmtn = $pdo->prepare('SELECT * from position WHERE machine_id = :mid ORDER BY position_id DESC');
@@ -198,15 +198,15 @@
                 $_SESSION['success'] = "Machine returned from Repair Successfully<br>";
                // header("Location: printcomprem.php?mc_id=$mid&date=$date");
                 echo("<script>
-         window.open('printcomprem.php?mc_id=$mid&date=$date', '_blank'); 
+         window.open('printcompremv2.php?mc_id=$mid&date=$date', '_blank'); 
 </script>");
-        echo("<script>window.open('home.php','_self')</script>");
+        echo("<script>window.open('homev2.php','_self')</script>");
                // return;
             }
             else
             {
                 $_SESSION['error'] = "Machine does not Exist in Repair House<br>";
-                    header('Location: fromrepairmc.php');
+                    header('Location: formrepairmcv2.php');
                     return;
             }
 
@@ -311,7 +311,7 @@ td:hover{
         }
     ?>
 
-    <form method="POST" action="fromrepairmcv2.php" class="register-form">
+    <form method="POST" action="formrepairmcv2.php" class="register-form">
     <div class="form-row">
     <div class="form-group">
     <div class="form-input">
@@ -330,7 +330,7 @@ td:hover{
 
     <div class="form-submit">
         
-    <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+    <input type="submit" value="Submit" name="add" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     </form>
