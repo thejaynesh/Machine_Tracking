@@ -1,15 +1,87 @@
 <?php
     session_start();
-    if( !isset($_SESSION['id']) )
-    {
-        die('ACCESS DENIED');
-    }
-    if( $_SESSION['role'] != '0' )
-    {
-        die('ACCESS DENIED');
-    }
     require_once "pdo.php";
+    
+    if(isset($_POST['cancel']))
+    {
+        header("Location: index.php");
+        return;
+    }
+    if(!isset($_SESSION['id']))
+    {
+        die("Please Login First");
+    }
+    else
+    {
+        $stmt=$pdo->prepare("SELECT first_name,last_name FROM member WHERE member_id = :id");
+        $stmt->execute(array(":id"=>$_SESSION['id']));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $name = $row['first_name'].' '.$row['last_name'];
+    }
+    if(isset($_POST['mac_addr']) )
+    {
+        if ( strlen($_POST['mac_addr']) < 1 || strlen($_POST['details']) < 1 || strlen($_POST['priority']) < 1 || strlen($_POST['name']) < 1)
+        {
+            $_SESSION['error'] = "All Fields are required";
+            header('Location: complaint_formv2.php');
+            return;
+        }
+        else
+        {
+                $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
+                $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row=== FALSE)
+                {
+                    $_SESSION['error'] = "Invalid MAC ADDRESS";
+                    header('Location: complaint_formv2.php');
+                    return;
+                }
+                $mid = $row['machine_id'];
+                
+                $stmt = $pdo->prepare('SELECT * FROM complaint_book WHERE machine_id = :mid AND completed IS NULL');
+                $stmt->execute(array(':mid' => $mid));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $stmt2 = $pdo->prepare('SELECT * FROM machine WHERE machine_id = :mid AND state = "INACTIVE"');
+                $stmt2->execute(array(':mid' => $mid));
+                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                if($row === FALSE && $row2 === FALSE)
+                {
+                    $_POST['dop']=date('y-m-d',strtotime($_POST['dop']));
+                $stmt = $pdo->prepare('INSERT INTO complaint_book (date_of_complaint, machine_id, complaint_details, priority, complaint_by) VALUES (:doc, :mid, :cd, :priority, :complaint_by)');
+                    $stmt->execute(array(':doc' => date('y-m-d'), ':mid' => $mid, ':cd' => $_POST['details'], ':priority' => $_POST['priority'], ':complaint_by' => $_POST['name']));
+                $_SESSION['success'] = "Complaint Registered Successfully";
+                    if(isset($_SESSION['id']))
+                    {
+                        header('Location: homev2.php');
+                        return;    
+                    }
+                    else
+                    {
+                        header('Location: index.php');
+                        return;   
+                    }
+                }
+                else
+                {
+                    $_SESSION['success'] = "Complaint for this machine already exists";
+                    if(isset($_SESSION['id']))
+                    {
+                        header('Location: homev2.php');
+                        return;    
+                    }
+                    else
+                    {
+                        header('Location: index.php');
+                        return;   
+                    }
+                }
+        }
+    }
 ?>
+
 <html>
 
 <head>
@@ -83,9 +155,10 @@ td:hover{
             </nav>
             <br>
             
-   <center><h1>Devices</h1></center>
-   <br>
-   <h6>Note - You can also Position, Unposition and Delete devices from here. To delete a device it need to be unpostioned first.</h6><br>
+   <center><h1>REGISTER COMPLAINT</h1></center>
+   
+
+    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
         if ( isset($_SESSION['error']) )
         {
@@ -98,212 +171,33 @@ td:hover{
             unset($_SESSION['success']);
         }
     ?>
-    <form method="post" class="form-inline">
-            <label id="processor">Device Name&nbsp</label>
-                <select class="form-control" id="chillana" name="chillana">
-                    <?php
-                        $qr=$pdo->query("SELECT DISTINCT(name) from name");
-                        while($row=$qr->fetch(PDO::FETCH_ASSOC))
-                        {
-                            echo "<option>". $row['name']."</option>";
-                        }
-                    ?>    
-                </select>
 
-            <label id="state">&nbsp&nbspState</label>&nbsp
-                <select class="form-control" id="state" name="state">           
-                    <option value="0">Unpositioned</option>
-                    <option value="1">Positioned</option>
-                    <option value="2">Issued</option> 
-                </select>
+    <form method="POST" action="complaint_formv2.php" class="register-form">
+    <div class="form-row">
+    <div class="form-group">
+    <div class="form-input">
+    <label>MACHINE No. </label>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"> </div><br/>
 
-            &nbsp &nbsp<div class="form-submit"><input class="Submit" id="Submit" type="submit" name="submit"></div>
-        </form>    
+    <div class="form-input">
+    <label>Complaint Details </label>
+    <input type="text" name="details" required="" class="form-control"> </div><br/>
+
+    <div class="form-input">
+    <label>Priority</label>
+    <input type="number" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority"> </div><br/>
     
-    <?php
+    <div class="form-input">
+    <label>Complaint By </label>
+    <input type="text" value = '<?= $name ?>' disabled="" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
+    <input type="text" name="name" hidden="" value = '<?=$name?>'>
 
+    <div class="form-submit">
         
-        //echo('<p><a href="logout.php">Logout</a></p>');
-        if(isset($_POST['chillana']))
-        {
-            $stmtcnt = $pdo->query("SELECT COUNT(*) FROM hardware");
-            $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-            if($row['COUNT(*)']!=='0')
-            {
-                $i=1;
-                $stmtread=$pdo->prepare("SELECT name_id from name where name =:name");
-                $stmtread->execute(array(":name"=>$_POST['chillana']));
-                $nameid=$stmtread->fetch(PDO::FETCH_ASSOC);
-
-                $stmtread = $pdo->prepare("SELECT * FROM hardware  where name= :name AND state=:state ORDER BY name");
-                $stmtread->execute(array(":name"=>$nameid['name_id'],":state"=>$_POST['state']));
-                echo ("<table class=\"table table-striped\">
-                    <tr> <th>S.no.</th><th>Name</th><th>description</th><th>Company</th><th>GRN</th><th>Supplier</th><th>State</th><th>Date of Purchase</th><th>Action</th></tr>");
-                while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
-                {
-                    $stmtn = $pdo->prepare("SELECT name FROM company where company_id = :cname ");
-                    $stmtn->execute(array(':cname' => $row['company']));
-                    $cname = $stmtn->fetch(PDO::FETCH_ASSOC);
-
-                    $supplier = $pdo->prepare("SELECT supname FROM supplier where sup_id = :sid");
-                    $supplier->execute(array(':sid' => $row['supplier']));
-                    $supplierid = $supplier->fetch(PDO::FETCH_ASSOC);
-
-                    $spec = $pdo->prepare("SELECT spec FROM specification where spec_id = :spec_id");
-                    $spec->execute(array(':spec_id' => $row['description']));
-                    $specn = $spec->fetch(PDO::FETCH_ASSOC);
-
-                    echo ("<tr>");
-                    echo ("<td>");
-                    echo($i);
-                    echo("</td>");
-                    
-                    echo ("<td>");
-                    echo(htmlentities($_POST['chillana']));
-                    echo ("</td>");
-
-                
-                    echo ("<td>");
-                    echo($specn['spec']);
-                    echo ("</td>");
-               
-
-                   // echo ("<td>");
-                   // echo(htmlentities($row['description']));
-                    //echo ("</td>");
-
-                    echo ("<td>");
-                    echo(htmlentities($cname['name']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($row['grn']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    echo(htmlentities($supplierid['supname']));
-                    echo ("</td>");
-                    echo ("<td>");
-                    if($_POST['state']==0)
-                        echo "Unpositoned";
-                    else if($_POST['state']==1)
-                        echo "Positioned";
-                    else if($_POST['state']==2)
-                        echo "Issued";
-                    echo ("</td>")  ; 
-                    echo ("<td>");
-                    echo(htmlentities($row['DOP']));
-                    echo("</td>");
-                    echo ("<td>");
-                    if($_POST['state']==0)
-                    {
-                        echo('<a class="link-black" href="deletedevv2.php?dev_id='.$row['hardware_id'].'">'. 'Delete Device ' . '</a>');
-
-                        $flag=0;
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where processor = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where ram = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where memory = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where monitor = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where keyboard = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where mouse = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-
-                        if($flag==0)
-                        echo('<a class="link-black" href="posdevv2.php?dev_id='.$row['hardware_id'].'">'. ' / Position Device ' . '</a>');
-                    }
-                    else if($_POST['state']==2)
-                    {
-                        echo('<a class="link-black" href="returndevv2.php?dev_id='.$row['hardware_id'].'">'. 'Return Device ' . '</a>');
-                    }
-                    else if($_POST['state']==1)
-                    {
-                        $flag=0;
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where processor = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where ram = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where memory = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where monitor = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where keyboard = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-                        $stmtcheck = $pdo->prepare("SELECT * FROM machine where mouse = :hid");
-                        $stmtcheck->execute(array(':hid' => $row['hardware_id']));
-                        $rowcheck = $stmtcheck->fetch(PDO::FETCH_ASSOC);
-                        if($rowcheck != FALSE)
-                        {
-                            $flag++;
-                        }
-
-                        if($flag==0)
-                        echo('<a class="link-black" href="unposdevv2.php?dev_id='.$row['hardware_id'].'">'. ' Unposition Device ' . '</a>');
-                    }
-                    echo("</td>");    
-                    $i++;
-                }
-                echo('</table>');
-            }
-        }
-    ?>
+    <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+    <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
+        </div>
+    </form>
    </div>
     </div>
 
