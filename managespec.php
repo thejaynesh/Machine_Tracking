@@ -78,12 +78,11 @@ td:hover{
             <br><br><br>
             <center> 
 <table >
-<tr cellspacing="40"><td><a href="view_member.php" >
-    <img src="img/icons/viewmember.png" height="150"><br><br><font size ="5" color="black">  <center>View Specification</center></font></a> </td>
-    <td ><a href="add_member.php">
-    <img src="img/icons/addspec.php.png" height="150"><br><br><font size ="5" color="black">  <center>Add Specification</center></font></a> </td>
-    <td><a href="delete_member.php">
-    <img src="img/icons/deletemember.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Specification</center></font></a> </td>
+<tr cellspacing="40">
+    <td ><a href="addspecv2.php">
+    <img src="img/icons/AddSepecification.png" height="150"><br><br><font size ="5" color="black">  <center>Add Specification</center></font></a> </td>
+    <td><a href="deletespecv2.php">
+    <img src="img/icons/DeleteSpecification.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Specification</center></font></a> </td>
     
 </tr>
 
