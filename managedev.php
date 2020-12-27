@@ -78,18 +78,18 @@ td:hover{
             <br><br><br>
             <center> 
 <table >
-<tr cellspacing="40"><td><a href="viewdev.php">
-    <img src="img/icons/viewdevice.png" height="150"><br><br><font size ="5" color="black">  <center>View Device</center></font></a> </td>
-    <td ><a href="adddevice.php">
+<tr cellspacing="40"><td><a href="viewdevv2.php">
+    <img src="img/icons/viewdevice.png" height="150"><br><br><font size ="5" color="black">  <center>View & Manage Device</center></font></a> </td>
+    <td ><a href="adddevv2.php">
     <img src="img/icons/adddevice1.png" height="150"><br><br><font size ="5" color="black">  <center>Add Device</center></font></a> </td>
-    <td><a href="deletedevice.php">
-    <img src="img/icons/deletedevice.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Device</center></font></a> </td>
+    <!-- <td><a href="deletedevice.php">
+    <img src="img/icons/deletedevice.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Device</center></font></a> </td> -->
     
 </tr>
 
 </table>
 <center>
-            </div>
+        </div>
     </div>
 
     <div class="overlay"></div>
