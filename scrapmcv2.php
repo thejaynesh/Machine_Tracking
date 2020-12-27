@@ -99,7 +99,7 @@ td:hover{
         }
     ?>
 
-    <form method="GET" action="mcscraped.php" class="col-xs-5">
+    <form method="GET" action="mcscrapedv2.php" class="register-form">
     
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <div class= "form-row">
@@ -111,7 +111,7 @@ td:hover{
 
     <div class="form-submit">
         
-    <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+    <input type="submit" value="Scrap Machine" name="add" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     </form>
