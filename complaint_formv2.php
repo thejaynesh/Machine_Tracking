@@ -177,24 +177,23 @@ td:hover{
     <div class="form-group">
     <div class="form-input">
     <label>MACHINE No. </label>
-    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"> </div><br/>
+    <input type="text" name="mac_addr" required="" class="form-control" id="mac_addr" onchange="Number('mac_addr')" placeholder="Computer No. (only integers)"> </div>
 
     <div class="form-input">
     <label>Complaint Details </label>
-    <input type="text" name="details" required="" class="form-control"> </div><br/>
-
+    <input type="text" name="details" required="" class="form-control"> </div>
     <div class="form-input">
     <label>Priority</label>
-    <input type="number" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority"> </div><br/>
+    <input type="number" name="priority" required="" placeholder="in no. of days" class="form-control" id="priority"> </div>
     
     <div class="form-input">
     <label>Complaint By </label>
-    <input type="text" value = '<?= $name ?>' disabled="" required="" class="form-control" id="cname" onchange="Names('cname')"> </div><br/>
+    <input type="text" value = '<?= $name ?>' disabled="" required="" class="form-control" id="cname" onchange="Names('cname')"> </div>
     <input type="text" name="name" hidden="" value = '<?=$name?>'>
 
     <div class="form-submit">
         
-    <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+    <input type="submit" value="Submit" name="add" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     </form>
