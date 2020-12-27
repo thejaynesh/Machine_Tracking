@@ -79,10 +79,10 @@ td:hover{
             <center> 
 <table >
 <tr cellspacing="40"><td >
-<a href="complaint_form.php">
+<a href="request_formv2.php">
     <img src="img/icons/request_machine.png" height="150"><br><br><font size ="5" color="black">  <center>Request for PC</center></font></a> </td>
     <td >
-    <a href="device_complaint_form.php">
+    <a href="device_complaint_formv2.php">
     <img src="img/icons/request_hardware.png" height="150"><br><br><font size ="5" color="black">  <center>Request for Hardware</center></font></a> </td>
     
 
