@@ -120,7 +120,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="fromrepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class="link-black" href="formrepairmcv2.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Mark Completed' . '</a>');
 
                         echo ("</td>");
                         
@@ -220,7 +220,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="fromrepairhardware.php?hid='.$row['hardware_id'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class="link-black" href="formrepairhardware.php?hid='.$row['hardware_id'].'">'. 'Mark Completed' . '</a>');
 
                         echo ("</td>");
                         
