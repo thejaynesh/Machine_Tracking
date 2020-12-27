@@ -84,11 +84,11 @@ td:hover{
     <img src="img/icons/addmachine.png" height="150"><br><br><font size ="5" color="black">  <center>Add Machine</center></font></a> </td>
     <td ><a href="deletemcv2.php">
     <img src="img/icons/addmachine.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Machine</center></font></a> </td>
-    <td ><a href="upgrademc.php">
+    <td ><a href="upgrademcv2.php">
     <img src="img/icons/UpgradeMachine1.png" height="150"><br><br><font size ="5" color="black">  <center>Upgrade Machine</center></font></a> </td>
-    <td ><a href="posmc.php">
+    <td ><a href="posmcv2.php">
     <img src="img/icons/Positionmachine2.png" height="150"><br><br><font size ="5" color="black">  <center>Position Machine</center></font></a> </td>
-    <td ><a href="scrapmc.php">
+    <td ><a href="scrapmcv2.php">
     <img src="img/icons/scrapmachine1.png" height="150"><br><br><font size ="5" color="black">  <center>Scrap Machine</center></font></a> </td>
 
 </tr>
