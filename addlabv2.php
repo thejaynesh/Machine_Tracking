@@ -11,7 +11,7 @@
     }
     if(isset($_POST['cancel']))
     {
-        header("Location: home.php");
+        header("Location: homev2.php");
         return;
     }
 
@@ -20,7 +20,7 @@
         if ( strlen($_POST['lab_name']) < 1 || strlen($_POST['department']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
-            header('Location: addlab.php');
+            header('Location: addlabv2.php');
             return;
         }
         else
@@ -31,7 +31,7 @@
             if($row['COUNT(*)'] !== '0')
             {
                 $_SESSION['error'] = "This Lab already exists";
-                header('Location: addlab.php');
+                header('Location: addlabv2.php');
                 return;
             }
             else
@@ -39,7 +39,7 @@
                 $stmt = $pdo->prepare('INSERT INTO lab (name, department) VALUES (:name, :dept)');
                     $stmt->execute(array(':name' => $_POST['lab_name'], ':dept' => $_POST['department']));
                 $_SESSION['success'] = "Lab Added Successfully";
-                    header('Location: home.php');
+                    header('Location: homev2.php');
                     return;
             }
 
@@ -137,7 +137,7 @@ td:hover{
         }
         ?>
         <div class="register-form">
-        <form method="POST" action="addlab.php">
+        <form method="POST" action="addlabv2.php">
 <div class="form-row">
 <div class="form-group">
         <div class="form-input">
