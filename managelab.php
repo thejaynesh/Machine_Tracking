@@ -78,11 +78,11 @@ td:hover{
             <br><br><br>
             <center> 
 <table >
-<tr cellspacing="40"><td><a href="viewlab.php">
+<tr cellspacing="40"><td><a href="viewlabv2.php">
     <img src="img/icons/viewlab.png" height="150"><br><br><font size ="5" color="black">  <center>View Lab</center></font></a> </td>
-    <td ><a href="addlab.php">
+    <td ><a href="addlabv2.php">
     <img src="img/icons/addlab.png" height="150"><br><br><font size ="5" color="black">  <center>Add Lab</center></font></a> </td>
-    <td><a href="deletelab.php">
+    <td><a href="deletelabv2.php">
     <img src="img/icons/deletelab.png" height="150"><br><br><font size ="5" color="black">  <center>Delete Lab</center></font></a> </td>
     
 </tr>
