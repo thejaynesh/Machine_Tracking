@@ -99,7 +99,7 @@ td:hover{
         }
     ?>
 
-    <form method="GET" action="editmc.php" class="form-inline">
+    <form method="GET" action="editmcv2.php" class="form-inline">
 
     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     
