@@ -145,7 +145,7 @@ td:hover{
     />
     <div class="form-submit">
         
-    <input type="submit" value="Delete" name="add" id="Submit" class="Submit">
+    <input type="submit" value="Delete" name="delete" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     <input type="hidden" name="id" value="<?= $_POST['id'] ?>">
