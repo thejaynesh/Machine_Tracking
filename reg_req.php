@@ -82,7 +82,7 @@ td:hover{
 <a href="request_formv2.php">
     <img src="img/icons/request_machine.png" height="150"><br><br><font size ="5" color="black">  <center>Request for PC</center></font></a> </td>
     <td >
-    <a href="device_complaint_formv2.php">
+    <a href="issuerequestv2.php">
     <img src="img/icons/request_hardware.png" height="150"><br><br><font size ="5" color="black">  <center>Request for Hardware</center></font></a> </td>
     
 
