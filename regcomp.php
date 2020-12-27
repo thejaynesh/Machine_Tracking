@@ -79,9 +79,9 @@ td:hover{
             <br><br><br>
             <center> 
 <table >
-<tr cellspacing="40"><td ><a href="complaint_form.php">
+<tr cellspacing="40"><td ><a href="complaint_formv2.php">
     <img src="img/icons/machine_repair.png" height="150"><br><br><font size ="5" color="black">  <center>Complaint for PC</center></font></a> </td>
-    <td ><a href="device_complaint_form.php">
+    <td ><a href="device_complaint_formv2.php">
     <img src="img/icons/hardware_repair.png" height="150"><br><br><font size ="5" color="black">  <center>Complaint for Hardware</center></font></a> </td>
     
 
