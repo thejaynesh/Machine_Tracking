@@ -11,7 +11,7 @@
     }
     if(isset($_POST['cancel']))
     {
-        header("Location: home.php");
+        header("Location: homev2.php");
         return;
     }
 
@@ -20,7 +20,7 @@
         if ( strlen($_POST['spec']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required<br>";
-            header('Location: deletespec.php');
+            header('Location: deletespecv2.php');
             return;
         }
         else
@@ -36,13 +36,13 @@
                  $stmt = $pdo->prepare('DELETE FROM specification WHERE spec = :spec AND name_id= :hardware');
                     $stmt->execute(array(':spec' => $_POST['spec'],':hardware' => $hardware['name_id']));
                 $_SESSION['success'] = "The specification was Deleted Successfully<br>";
-                header('Location: home.php');
+                header('Location: homev2.php');
                 return;
             }
             else
             {
                 $_SESSION['error'] = "Specification does not Exists<br>";
-                    header('Location: deletespec.php');
+                    header('Location: deletespecv2.php');
                     return;
             }
 
@@ -136,7 +136,7 @@ td:hover{
         }
     ?>
 
-    <form method="POST" action="deletespec.php" class="register-form">
+    <form method="POST" action="deletespecv2.php" class="register-form">
 
         <div class="form-row">
         <div class="form-group">
