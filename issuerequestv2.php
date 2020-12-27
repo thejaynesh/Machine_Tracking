@@ -1,67 +1,51 @@
 <?php
     session_start();
     require_once "pdo.php";
-    if( !isset($_SESSION['id']) )
-    { 
-        die('ACCESS DENIED');
-    }
-    if( $_SESSION['role'] != '0' )
-    {
-        die('ACCESS DENIED');
-    }
+    
     if(isset($_POST['cancel']))
     {
-        header("Location: homev2.php");
+        header("Location: index.php");
         return;
     }
-
-    $salt='new_ton56*';
-
-    if(isset($_POST['id']) )
+    if(!isset($_SESSION['id']))
     {
-        if ( strlen($_POST['id']) < 1 || strlen($_POST['first_name']) < 1 || strlen($_POST['last_name']) < 1 || strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1 || strlen($_POST['c_pass']) < 1|| strlen($_POST['contact_no']) < 1)
+        die("ACCESS DENIED");
+    }
+
+    if(isset($_POST['department']) )
+    {
+        if ( strlen($_POST['department']) < 1 || strlen($_POST['purpose']) < 1)
         {
             $_SESSION['error'] = "All Fields are required<br>";
-            header('Location: add_memberv2.php');
+            header('Location: issue_requestv2.php');
             return;
         }
         else
         {
-            $stmt = $pdo->prepare('SELECT COUNT(*) FROM member WHERE id = :id');
-            $stmt->execute(array(':id' => $_POST['id']));
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row['COUNT(*)'] !== '0')
-            {
-                $_SESSION['error'] = "This ID already exists<br>";
-                header('Location: add_memberv2.php');
-                return;
-            }
+                 
+                
+                $date=date('y-m-d');
+                $stmt=$pdo->prepare("SELECT name_id from name WHERE name =:name");
+                $stmt->execute(array(":name"=>$_POST['hardware']));
+                $rowname=$stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt = $pdo->prepare('INSERT INTO `issue_request`( `department`, `id`, `purpose`, `date_of_request`, `name_of_hardware`) VALUES (:department,:id,:purpose, :dat,:hardware)');
+                    $stmt->execute(array(':dat' => date('y-m-d'),
+                      ':department' => $_POST['department'],
+                       ':purpose' => $_POST['purpose'],
+                       ':id'=>$_SESSION['id'],
+                       ':hardware'=>$rowname['name_id']
+                   ));
+                    echo $rowname['name_id'].$_POST['hardware'];
+                $_SESSION['success'] = "Issue Request Sent Successfully<br>";
 
-            if($_POST['pass'] === $_POST['c_pass'])
-            {
-                if(strlen($_POST['pass'])<8)
-                {
-                    $_SESSION['error'] = "Password must be atleast 8 character long<br>";
-                    header('Location: add_memberv2.php');
+                    if(isset($_SESSION['id']))
+                        header("Location:homev2.php");
+                    else
+                        header('Location: index.php');
+                        
                     return;
-                }
-                else
-                {
-                    $check = hash('md5', $salt.$_POST['pass']);
-                    $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,"2",:cn)');
-                    $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check,':cn' => $_POST['contact_no']));
+          
 
-                    $_SESSION['success'] = "Member Added Successfully<br>";
-                    header('Location: homev2.php');
-                    return;
-                }
-            }
-            else
-            {
-                $_SESSION['error'] = "Passwords do not match<br>";
-                header('Location: add_memberv2.php');
-                return;
-            }
         }
     }
 ?>
@@ -136,10 +120,10 @@ td:hover{
             </nav>
             <br>
             
-   <center><h1>ADD NEW MEMBER</h1></center>
+   <center><h1>ISSUE HARDWARE REQUEST</h1></center>
    
-    
-    <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
+
+     <div id="error" style="color: red; margin-left: 90px; margin-bottom: 20px;"></div>
     <?php
         if ( isset($_SESSION['error']) )
         {
@@ -153,52 +137,42 @@ td:hover{
         }
     ?>
 
-    <form method="POST"  class="register-form">
+    <form method="POST" class="register-form">
     <div class="form-row">
     <div class="form-group">
     <div class="form-input">
-    <label>Select Hardware</label>
-    <select name="hardwarename" class="form-control">
-        <?php
-            $stmt=$pdo->query("SELECT description from hardware WHERE state =0");
-            while($row=$stmt->fetch(PDO::FETCH_ASSOC))
-                echo "<option>".$row['description']."</option>"
+    <label>Department </label>
+    <input type="text" name="department" required="" class="form-control" placeholder="Department Name" id="deprt" onchange="Names('deprt')"> </div>
 
-        ?>
+    <div class="form-input">
+    <label>Purpose</label>
+    <input type="text" name="purpose" required="" class="form-control" id="purp" onchange="Purpose('purp')"> </div>
+    <div class="form-input">
+    <label>Hardware Name</label>
+    <select name="hardware" class="form-control">
+           <?php
+                $qr=$pdo->query("SELECT * FROM hardware WHERE state=0 GROUP BY description");
+                while($row=$qr->fetch(PDO::FETCH_ASSOC))
+                {
+                    $pro = $pdo->prepare("SELECT spec FROM specification where spec_id = :name_id");
+                    $pro->execute(array(':name_id' => $row['description']));
+                    $name=$pdo->prepare("SELECT name from name where name_id = :name");
+                    $name->execute(array(":name"=>$row['name']));
+                    $namer=$name->fetch(PDO::FETCH_ASSOC);
+                    $pron = $pro->fetch(PDO::FETCH_ASSOC);
+                    echo "<option value ='". $namer['name']."'>".$namer['name'].' '.$pron['spec']."</option>";
+                }
+            ?>   
     </select>
     </div>
-
-    <div class="form-input">
-    <label>First Name</label>
-    <input type="text" name="first_name" required="" class="form-control" id="fname" onchange="Names('fname')"> </div>
-
-    <div class="form-input">
-    <label>Last Name</label>
-    <input type="text" name="last_name" required="" class="form-control" id="lname" onchange="Names('lname')"> </div>
-
-    <div class="form-input">
-    <label>Email</label>
-    <input type="email" name="email" required="" class="form-control"> </div>
-
-    <div class="form-input">
-      <label>Contact No.</label>
-      <input type="text" name="contact_no" class="form-control" required placeholder="Enter a valid Contact number"> </div>
-
-      <div class="form-input">
-    <label>Password</label>
-    <input type="password" name="pass" required="" class="form-control"> </div>
-
-    <div class="form-input">
-    <label>Confirm Password</label>
-    <input type="password" required="" name="c_pass" class="form-control"> </div>
     
+
     <div class="form-submit">
         
     <input type="submit" value="Submit" name="add" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     </form>
-
    </div>
     </div>
 
