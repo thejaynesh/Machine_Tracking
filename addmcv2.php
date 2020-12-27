@@ -273,9 +273,9 @@ td:hover{
 
     <form method="POST" action="addmcv2.php" class="register-form" id="register-form">
     <div class="form-row">
-    `<div class="form-group">
+    <div class="form-group">
     <div class="form-input">
-         <label for="mc no." class="required">Machine No.</label>`
+         <label for="mc no." class="required">Machine No.</label>
              <input type="text" name="mac_addr" id="mac_Addr" onchange="Number('mac_addr')" required="" placeholder="Computer No. (only integers)">
                               </div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
@@ -476,7 +476,8 @@ td:hover{
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <script type="text/javascript" src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({
