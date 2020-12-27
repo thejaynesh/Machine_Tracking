@@ -273,9 +273,9 @@ td:hover{
 
     <form method="POST" action="addmcv2.php" class="register-form" id="register-form">
     <div class="form-row">
-    <div class="form-group">
+    `<div class="form-group">
     <div class="form-input">
-         <label for="mc no." class="required">Machine No.</label>
+         <label for="mc no." class="required">Machine No.</label>`
              <input type="text" name="mac_addr" id="mac_Addr" onchange="Number('mac_addr')" required="" placeholder="Computer No. (only integers)">
                               </div>
     <span style="color:#7386D5">If adding multiple PC then enter starting machine ID and rest will be assigned in succession</span>
