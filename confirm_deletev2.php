@@ -11,7 +11,7 @@
     }
     if(isset($_POST['cancel']))
     {
-        header("Location: home.php");
+        header("Location: homev2.php");
         return;
     }
     
@@ -119,7 +119,7 @@ td:hover{
             
    <center><h1>REMOVE MEMBER</h1></center>
    <h1>CONFIRM REMOVE</h1>
-    
+
     <?php
         if ( isset($_SESSION['error']) )
         {
@@ -145,7 +145,7 @@ td:hover{
     />
     <div class="form-submit">
         
-    <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+    <input type="submit" value="Delete" name="add" id="Submit" class="Submit">
     <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
         </div>
     <input type="hidden" name="id" value="<?= $_POST['id'] ?>">
