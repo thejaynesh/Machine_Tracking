@@ -235,10 +235,13 @@
     <div class="checkbox">
     <label><input type="checkbox" name="keyboard" value="keyboard">Keyboard</label>
     </div>
-
-    <input type="submit" name="submit" value="Submit" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
     <input type="hidden" name="mc_id" value="<?= $_GET['mc_id'] ?>">
+    <div class="form-submit">
+        
+        <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+        <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
+            </div>>
+    
     
     </form>
 
