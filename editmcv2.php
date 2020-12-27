@@ -11,7 +11,7 @@
     }
     if(isset($_POST['cancel']))
     {
-        header("Location: home.php");
+        header("Location: homev2.php");
         return;
     }
 
@@ -20,7 +20,7 @@
         if ( strlen($_GET['mac_addr']) < 1 )
         {
             $_SESSION['error'] = "All Fields are required<br>";
-            header('Location: upgrademc.php');
+            header('Location: upgrademcv2.php');
             return;
         }
         else
@@ -31,7 +31,7 @@
             if ( $row === false )
             {
                 $_SESSION['error'] = 'Could not load machine details<br>';
-                header( 'Location: upgrademc.php' ) ;
+                header( 'Location: upgrademcv2.php' ) ;
                 return;
             }
 
@@ -78,7 +78,7 @@
         if ( strlen($_POST['processor']) < 1 || strlen($_POST['ram']) < 1 || strlen($_POST['memory']) < 1)
         {
             $_SESSION['error'] = "All Fields are required";
-            header('Location: upgrademc.php');
+            header('Location: upgrademcv2.php');
             return;
         }
         else
@@ -147,7 +147,7 @@
                 ));
 
             $_SESSION['success']="Machine Upgraded Sucessfully<br>";
-            header("Location: home.php");
+            header("Location: homev2.php");
             return;
         }
     }
@@ -241,21 +241,21 @@ td:hover{
         }
     ?>
 
-    <form method="POST" action="editmc.php" class="col-xs-5">
-    <div class="form-group">
+    <form method="POST" action="editmcv2.php" class="">
+    <div class="form-row">
     <div class="form-group">
     <div class="form-input">
          <label for="mc no." class="required">Machine No.</label>
     
     <input type="text" value="<?= $mac_addr ?>" class="" disabled> <br/>
-    <input type="hidden" name="macaddr" value="<?= $mac_addr ?>" class="" ></div>
+    <input type="hidden" name="macaddr" value="<?= $mac_addr ?>" class="    " ></div>
 
     <!--<div class="input-group">
     <span class="input-group-addon">Processor </span>
     <input type="text" name="processor" required="" value="<?= $processor ?>" class="form-control"> </div><br/> -->
 
-    <div class="input-group">
-    <span class="input-group-addon">Processor</span>
+    <div class="form-input">
+    <label for="Processor" class="required">Processor</label>
     <select name=processor class="form-control" required="">
         <?php
             
@@ -286,15 +286,15 @@ td:hover{
                 echo '</option>';
             }
          ?>
-    </select>
-    </div><br/>
+    </select></div>
+    <br/>
 
     <!--<div class="input-group">
     <span class="input-group-addon">RAM </span>
     <input type="text" name="ram" required="" value="<?= $ram ?>" class="form-control"> </div><br/>-->
 
-    <div class="input-group">
-    <span class="input-group-addon">Ram</span>
+    <div class="form-input">
+    <label for="Ram" class="required">Ram</label>
     <select name=ram class="form-control" required="">
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'ram'");
@@ -331,8 +331,8 @@ td:hover{
     <span class="input-group-addon">Storage </span>
     <input type="text" name="memory" required="" value="<?= $memory ?>" class="form-control"> </div><br/>-->
 
-    <div class="input-group">
-    <span class="input-group-addon">Storage</span>
+    <div class="form-input">
+    <label for="Storage" class="required">Storage</label>
     <select name=memory class="form-control" required="">
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'harddisk'");
@@ -365,8 +365,8 @@ td:hover{
     </select>
     </div><br/>
 
-    <div class="input-group">
-    <span class="input-group-addon">OS </span>
+    <div class="form-input">
+    <label for="OS" class="required">OS </label>
     <!--<input type="text" name="os" value="<?= $os ?>" class="form-control"> </div><br/>-->
     <select name="os" class="form-control" required="">
         <?php
@@ -378,12 +378,14 @@ td:hover{
         <option value="linux" <?php if($rowos['os']=="linux") echo " selected "?>>Linux</option>
         <option value="osx" <?php if($rowos['os']=="osx") echo " selected "?>>OS X</option>
     </select></div><br>
+
+    
     <!--<div class="input-group">
     <span class="input-group-addon">Keyboard </span>
     <input type="text" name="keyboard" required="" value="<?= $keyboard ?>" class="form-control"> </div><br/>-->
 
-    <div class="input-group">
-    <span class="input-group-addon">Keyboard </span>
+    <div class="form-input">
+    <label for="Keyboard" class="required">Keyboard </label>
     <select name=keyboard class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'keyboard'");
@@ -415,8 +417,8 @@ td:hover{
     <span class="input-group-addon">Mouse </span>
     <input type="text" name="mouse" required="" value="<?= $mouse ?>" class="form-control"> </div><br/>-->
 
-    <div class="input-group">
-    <span class="input-group-addon">Mouse</span>
+    <div class="form-input">
+    <label for="Mouse" class="required">Mouse</label>
     <select name=mouse class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'mouse'");
@@ -448,8 +450,8 @@ td:hover{
     <span class="input-group-addon">Monitor </span>
     <input type="text" name="os" required="" value="<?= $monitor ?>" class="form-control"> </div><br/>-->
 
-    <div class="input-group">
-    <span class="input-group-addon">Monitor</span>
+    <div class="form-input">
+    <label for="Monitor" class="required">Monitor</label>
     <select name=monitor class="form-control" disabled>
         <?php
             $qr=$pdo->query("SELECT * from name where name = 'monitor'");
@@ -474,12 +476,12 @@ td:hover{
     </select>
     </div><br/>
 
-    <div class="input-group">
-    <span class="input-group-addon">Price of Purchase </span>
+    <div class="form-input">
+    <label for="Price" class="required">Price of Purchase </label>
     <input type="text" name="price" value="<?= $price ?>"" class="form-control" disabled> </div><br/>
 
-    <div class="input-group">
-    <span class="input-group-addon">Date of Purchase</span>
+    <div class="form-input">
+    <label for="Date" class="required">Date of Purchase</label>
     <input type="date" name="dop" value="<?= $dop ?>" class="form-control" disabled> </div><br/>
 
 
