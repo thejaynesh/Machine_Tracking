@@ -118,7 +118,7 @@ td:hover{
             <br>
             
    <center><h1>REMOVE MEMBER</h1></center>
-   <h1>CONFIRM REMOVE</h1>
+   <h3>CONFIRM REMOVE</h3>
 
     <?php
         if ( isset($_SESSION['error']) )
