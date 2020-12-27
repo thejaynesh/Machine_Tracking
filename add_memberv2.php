@@ -48,8 +48,8 @@
                 else
                 {
                     $check = hash('md5', $salt.$_POST['pass']);
-                    $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,:role,:cn)');
-                    $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check, ':role' => $_POST['role'], ':cn' => $_POST['contact_no']));
+                    $stmt = $pdo->prepare('INSERT INTO member (id, first_name, last_name, email, pass_word ,role,contact_no) VALUES (:id, :fn, :ln, :em, :pw,:selectedrole,:cn)');
+                    $stmt->execute(array(':id' => $_POST['id'], ':fn' => $_POST['first_name'], ':ln' => $_POST['last_name'], ':em' => $_POST['email'], ':pw' => $check, ':selectedrole' => $_POST['role'], ':cn' => $_POST['contact_no']));
 
                     $_SESSION['success'] = "Member Added Successfully";
                     header('Location: homev2.php');
@@ -153,15 +153,39 @@ td:hover{
         }
     ?>
 
-    <form method="POST" action="add_member.php"  class="register-form">
+    <form method="POST" action="add_memberv2.php"  class="register-form">
     <div class="form-row">
     <div class="form-group">
-    <div class="form-input">
-    <p>Role : &nbsp&nbsp&nbsp
-    <input type="radio" id="cash" name="role" value="0"> Admin &nbsp&nbsp&nbsp
+    
+    
+    <div class="form-radio">
+                                    <div class="label-flex">
+                                        <label for="payment">Role : &nbsp&nbsp&nbsp</label>
+                                        
+                                    </div>
+                                    <div class="form-radio-group">            
+                                        <div class="form-radio-item">
+                                            <input type="radio" name="role" id="0" value="0" >
+                                            <label for="0">&nbsp Administrator &nbsp</label>
+                                            <span class="check"></span>
+                                        </div>
+                                        <div class="form-radio-item">
+                                            <input type="radio" name="role" id="1" value="1">
+                                            <label for="1">Faculty &nbsp&nbsp&nbsp </label>
+                                            <span class="check"></span>
+                                        </div>
+                                        <div class="form-radio-item">
+                                            <input type="radio" name="role" id="2" value="2">
+                                            <label for="2">Technician</label>
+                                            <span class="check"></span>
+                                        </div>
+                                    </div>
+                                </div>
+    <!-- <input type="radio" name="role" value="0" checked>
+                                            &nbsp Administrator &nbsp
     <input type="radio" name="role" value="1" checked> Faculty &nbsp&nbsp&nbsp        
-    <input type="radio" name="role" value="2"> Technician       
-    </p>
+    <input type="radio" name="role" value="2"> Technician        -->
+    
 
     <div class="form-input">
     <label>ID</label> 
@@ -191,8 +215,11 @@ td:hover{
     <label>Confirm Password</label>
     <input type="password" required="" name="c_pass" class="form-control" placeholder="min. 8 characters" id="cpswrd" onchange="conp('cpswrd')"> </div>
      
-    <input type="submit" value="Sign Up" class="btn btn-info">
-    <a class ="link-no-format" href="home.php"><div class="btn btn-my">Cancel</div></a>
+    <div class="form-submit">
+        
+        <input type="submit" value="Add Machine" name="add" id="Submit" class="Submit">
+        <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
+            </div>  
     </form>
 
    </div>
