@@ -31,12 +31,7 @@ input:focus, textarea:focus {
   -o-box-shadow: none !important;
   -ms-box-shadow: none !important; }
 
-input[type=checkbox] {
-  appearance: checkbox !important;
-  -moz-appearance: checkbox !important;
-  -webkit-appearance: checkbox !important;
-  -o-appearance: checkbox !important;
-  -ms-appearance: checkbox !important; }
+
 
 input[type=radio] {
   appearance: radio !important;
@@ -83,6 +78,28 @@ label.required {
     content: '*';
     margin-left: 2px;
     color: #b90000; }
+
+    form label.checkbox{
+      border-bottom: 0;
+      text-align: center;
+    }
+    form label.checkbox input{
+      display: none;
+    }
+    form label.checkbox span{
+      font-size: 0.5em;
+    }
+    form label.checkbox span:before{
+      content: '\e157';
+      display: inline-block;
+      font-family: 'Glyphicons Halflings';
+      font-size: 1.125em;
+      padding-right: 0.25em;
+      position: relative;
+      top: 1px;
+    }
+    form label.checkbox input:checked + span:before{content: '\e067';}
+    
 
 input {
   box-sizing: border-box;
