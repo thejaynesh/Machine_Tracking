@@ -32,7 +32,7 @@
             $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
             $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row === FALSE)
+            if($row == FALSE)
             {
                 $_SESSION['error'] = "Invalid MAC ADDRESS";
                 header('Location: formrepairmcv2.php?mc_id='.$_GET['mc_id']);
@@ -43,13 +43,13 @@
             $stmt = $pdo->prepare('SELECT COUNT(*) FROM repair_history WHERE machine_id = :mid AND fault IS NULL');
             $stmt->execute(array(':mid' => $mid));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row['COUNT(*)'] !== '0')
+            if($row['COUNT(*)'] != '0')
             {
 
                  $stmt = $pdo->prepare('UPDATE machine SET state = "ACTIVE" WHERE machine_id = :mid');
                     $stmt->execute(array(':mid' => $mid));
 
-                $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = 0000-00-00');
+                $stmt = $pdo->prepare('UPDATE repair_history SET final_date = :fdate, fault = :fault, cost = :cost WHERE machine_id = :mid AND final_date = "1970-01-01"');
                     $stmt->execute(array(':mid' => $mid, ':fdate' => date('y-m-d'), ':fault' => $_POST['fault'], ':cost' => $_POST['cost']));
 
                 $stmtn = $pdo->prepare('SELECT * from position WHERE machine_id = :mid ORDER BY position_id DESC');
@@ -60,7 +60,7 @@
                     $lid=$rown['lab_id'];
 
                     $stmt = $pdo->prepare('INSERT INTO position (machine_id, lab_id, initial_date, final_date) VALUES (:mid, :lid, :idate, :fdate)');
-                            $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => 1970-01-01));
+                            $stmt->execute(array(':mid' => $mid, ':lid' => $lid, ':idate' => $_POST['date'], ':fdate' => '1970-01-01'));
                 }
 
                 $stmtc = $pdo->prepare('SELECT * FROM temp WHERE machine_id = :mid');
@@ -194,11 +194,13 @@
 
 
                 }
+                // $stmtdelete = $pdo->prepare("DELETE FROM  where machine_id = :xyz");
+                // $stmtdelete->execute(array(":xyz" => $mid));
 
                 $_SESSION['success'] = "Machine returned from Repair Successfully<br>";
                // header("Location: printcomprem.php?mc_id=$mid&date=$date");
                 echo("<script>
-         window.open('printcompremv2.php?mc_id=$mid&date=$date', '_blank'); 
+         window.open('printcompremv2.php?mc_id=$mid&date=$_POST[date]', '_blank'); 
 </script>");
         echo("<script>window.open('homev2.php','_self')</script>");
                // return;
@@ -316,10 +318,10 @@ td:hover{
     <div class="form-group">
     <div class="form-input">
     <label>MAC ADDRESS </label>    
-    <input type="text" value="<?= $mac_addr ?>" disabled class="form-control">
-    <input type="hidden" name="mac_addr" value="<?= $mac_addr ?>" class="form-control">
+    <input type="text" value="<?php echo $_GET['mc_id']; ?>" disabled class="form-control">
+    <input type="hidden" name="mac_addr" value="<?php echo $_GET['mc_id']; ?>" class="form-control">
     </div><br/>
-    <input type="text" name="date" hidden >
+    <input type="text" name="date" value="<?php echo date("Y-m-d") ?>"hidden >
     <div class="form-input">
     <label>FAULT </label>
     <input type="text" name="fault" required="" class="form-control" id="fault"> </div><br/>
