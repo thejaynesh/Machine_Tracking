@@ -163,7 +163,7 @@ input {
   transition: border .25s linear;
   -webkit-transition: border .25s linear; }
   .check:before {
-    position: absolute;
+    position: relative;
     display: block;
     content: '';
     width: 12px;
