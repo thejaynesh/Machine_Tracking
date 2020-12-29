@@ -53,7 +53,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto"> 
                         <li class="nav-item">
-                                <a class="nav-link" href="logout.php"> Home |</a>
+                                <a class="nav-link" href="homev2.php"> Home |</a>
                             </li>  
                             <li class="nav-item">
                             <a class="nav-link" href="#"><?php
@@ -165,7 +165,7 @@
                         echo(htmlentities($row['complaint_by']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="gorepairmc.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a class="link-black" href="deleterr.php?cb_id='.$row['complaint_book_id'].'">'. 'Delete' . '</a>');
+                        echo('<a class="link-black" href="gorepairmcv2.php?mc_id='.$rowr['MAC_ADDR'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a class="link-black" href="deleterrv2.php?cb_id='.$row['complaint_book_id'].'">Delete</a>');
 
                         echo ("</td>");
                         
@@ -220,7 +220,7 @@
                         echo(htmlentities($row['remarks']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="formrepairhardware.php?hid='.$row['hardware_id'].'">'. 'Mark Completed' . '</a>');
+                        echo('<a class="link-black" href="formrepairhardwarev2.php?hid='.$row['hardware_id'].'">'. 'Mark Completed' . '</a>');
 
                         echo ("</td>");
                         
@@ -294,7 +294,7 @@
                         echo (htmlentities($location));
                         echo "</td>";
                         echo ("<td>");
-                        echo('<a class="link-black" href="gorepairhardware.php?h_id='.$rowr['hardware_id'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a class="link-black" href="deletehc.php?cb_id='.$row['hardware_complaint_book_id'].'">'. 'Delete' . '</a>');
+                        echo('<a class="link-black" href="gorepairhardwarev2.php?h_id='.$rowr['hardware_id'].'">'. 'Assign Job' . '</a>' . ' / ' . '<a class="link-black" href="deletehcv2.php?cb_id='.$row['hardware_complaint_book_id'].'">'. 'Delete' . '</a>');
 
                         echo ("</td>");
                         
@@ -375,7 +375,7 @@
                         echo(htmlentities($row['quantity']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black" href="servicerpt.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>' . ' / ' . '<a class="link-black" href="deletetr.php?tr_id='.$row['transfer_request_id'].'">'. 'Delete' . '</a>');
+                        echo('<a class="link-black" href="servicerptv2.php?id='.$row['transfer_request_id'].'">'. 'Generate Report' . '</a>' . ' / ' . '<a class="link-black" href="deletetrv2.php?tr_id='.$row['transfer_request_id'].'">'. 'Delete' . '</a>');
                         echo ("</td>");
                         
                         $i++;    
@@ -423,8 +423,8 @@
                                 echo $row2['date_of_request'];
                             echo "</td>";
                             echo "<td>";
-                                echo "<a class='link-black' href='issue_hardware.php?id=".$row2['issue_report_id']."&name_id=".$row2['name_of_hardware']."'>Issue</a>/
-                                <a class='link-red' href='delete_issue_request.php?id=".$row2['issue_report_id']."'>Delete</a>";
+                                echo "<a class='link-black' href='issue_hardwarev2.php?id=".$row2['issue_report_id']."&name_id=".$row2['name_of_hardware']."'>Issue</a>/
+                                <a class='link-red' href='delete_issue_requestv2.php?id=".$row2['issue_report_id']."'>Delete</a>";
                             echo "</td>";
                         echo "</tr>";
                     }
@@ -532,7 +532,7 @@
                             }
                             echo ("</td>");
                             echo ("<td>");
-                            echo('<a class="link-black" href="issue_parts.php?cb_id='.$rowpartsdisplay['complaint_book_id'].'&mc_id='.$rowpartsdisplay['machine_id'].'">'. 'Issue Parts' . '</a>' . ' / ' . '<a class="link-black" href="deny_parts.php?cb_id='.$rowpartsdisplay['complaint_book_id'].'">'. 'Deny' . '</a>');
+                            echo('<a class="link-black" href="issue_partsv2.php?cb_id='.$rowpartsdisplay['complaint_book_id'].'&mc_id='.$rowpartsdisplay['machine_id'].'">'. 'Issue Parts' . '</a>' . ' / ' . '<a class="link-black" href="deny_partsv2.php?cb_id='.$rowpartsdisplay['complaint_book_id'].'">'. 'Deny' . '</a>');
 
                             echo ("</td>");
                         }
@@ -590,20 +590,20 @@
 
                         if($rowc == false)
                         {
-                            echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
-                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
+                            echo('<a class="link-black "href="mcrepairedv2.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
+                            echo('<a class="link-black "href="partsreqv2.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
                             echo ("</td>");                            
                         }
                         else if($rowc2 == false)
                         {
-                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '/</a>');
-                            echo('<a class="link-black "href="partsasked.php?mc_id='.$row['machine_id'].'">'. 'Parts Requested' . '</a>');
+                            echo('<a class="link-black "href="partsreqv2.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '/</a>');
+                            echo('<a class="link-black "href="partsaskedv2.php?mc_id='.$row['machine_id'].'">'. 'Parts Requested' . '</a>');
                             echo ("</td>");    
                         }
                         else
                         {
-                            echo('<a class="link-black "href="mcrepaired.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
-                            echo('<a class="link-black "href="partsreq.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
+                            echo('<a class="link-black "href="mcrepairedv2.php?mc_id='.$row['machine_id'].'">'. 'Job Done' . '/</a>');
+                            echo('<a class="link-black "href="partsreqv2.php?mc_id='.$row['machine_id'].'">'. 'Parts Required' . '</a>');
                             echo ("</td>");
     
                         }
@@ -652,7 +652,7 @@
                         echo(htmlentities($row['priority']));
                         echo ("</td>");
                         echo ("<td>");
-                        echo('<a class="link-black "href="hardwarerepaired.php?hid='.$row['hardware_complaint_book_id'].'">'. 'Job Done' . '</a>');
+                        echo('<a class="link-black "href="hardwarerepairedv2.php?hid='.$row['hardware_complaint_book_id'].'">'. 'Job Done' . '</a>');
                         echo ("</td>");                            
                         $i++;
                     }
