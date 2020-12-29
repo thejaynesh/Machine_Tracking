@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once "pdo.php";
     if( !isset($_SESSION['id']) )
     {
         die('ACCESS DENIED');
@@ -8,7 +9,80 @@
     {
         die('ACCESS DENIED');
     }
-    require_once "pdo.php";
+    if(isset($_POST['cancel']))
+    {
+        header("Location: homev2.php");
+        return;
+    }
+    if(isset($_GET['mc_id']))
+    {
+        $mac_addr=$_GET['mc_id'];
+    }
+    if(isset($_POST['mac_addr']) )
+    {
+        if ( strlen($_POST['mac_addr']) < 1 )
+        {
+            $_SESSION['error'] = "All Fields are required<br>";
+            header('Location: gorepairmcv2.php');
+            return;
+        }
+        else
+        {
+            $_POST['date']=date('y-m-d',strtotime($_POST['date']));
+            $stmt = $pdo->prepare('SELECT COUNT(*) FROM machine WHERE MAC_ADDR = :mac_addr');
+            $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row['COUNT(*)'] !== '0')
+            {
+                $stmt = $pdo->prepare('SELECT * FROM machine WHERE MAC_ADDR = :mac_addr');
+                $stmt->execute(array(':mac_addr' => $_POST['mac_addr']));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $mid = $row['machine_id'];
+
+                $stmt = $pdo->prepare('SELECT COUNT(*) FROM repair_history WHERE machine_id = :mid AND final_date = "0000-00-00"');
+                $stmt->execute(array(':mid' => $mid));
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($row['COUNT(*)'] !== '0')
+                {
+                    $_SESSION['error'] = "Machine already in Repair<br>";
+                    header('Location: gorepairmcv2.php');
+                    return;
+                }
+
+                $stmtn = $pdo->prepare('SELECT * FROM complaint_book WHERE work_for IS NULL AND machine_id = :mid');
+                $stmtn->execute(array(':mid' => $mid));
+                $rown = $stmtn->fetch(PDO::FETCH_ASSOC);
+
+                 $stmt = $pdo->prepare('UPDATE machine SET state = "INACTIVE" WHERE machine_id = :mid');
+                    $stmt->execute(array(':mid' => $mid));
+
+                $stmt = $pdo->prepare('UPDATE position SET final_date = :fdate WHERE machine_id = :mid AND final_date = "1970-01-01"');
+                    $stmt->execute(array(':mid' => $mid, ':fdate' => $_POST['date']));
+
+                $stmt = $pdo->prepare('INSERT INTO repair_history (machine_id, initial_date, final_date, complaint_book_id) VALUES (:mid, :idate, "1970-01-01", :cbid)');
+                    $stmt->execute(array(':mid' => $mid, ':idate' => $_POST['date'], ':cbid' => $rown['complaint_book_id']));
+
+                $stmt = $pdo->prepare('UPDATE complaint_book SET work_for = :wf WHERE machine_id = :mid AND work_for IS NULL');
+                $stmt->execute(array(':mid' => $mid, ':wf' => $_POST['work_for']));
+
+                $wf=$_POST['work_for'];
+                $date=$_POST['date'];
+                $_SESSION['success'] = "Machine sent to Repair Successfully<br>";
+               // header("Location:printcomp.php?mc_id=$mid&wf=$wf&date=$date");
+                echo("<script>
+         window.open('printcompv2.php?mc_id=$mid&wf=$wf&date=$date', '_blank'); 
+</script>");
+        echo("<script>window.open('homev2.php','_self')</script>");
+            }
+            else
+            {
+                $_SESSION['error'] = "Machine does not Exists<br>";
+                    header('Location: gorepairmcv2.php');
+                    return;
+            }
+
+        }
+    }
 ?>
 <html>
 
@@ -81,10 +155,8 @@ td:hover{
             </nav>
             <br>
             
-   <center><h1>LABS</h1></center>
-   
-  
-    
+   <center><h1>REPAIR MACHINE</h1></center>
+ 
     <?php
         if ( isset($_SESSION['error']) )
         {
@@ -96,39 +168,40 @@ td:hover{
             echo('<p style="color: green;">'.$_SESSION['success']."</p>\n");
             unset($_SESSION['success']);
         }
-        //echo('<p><a href="logout.php">Logout</a></p>');
-        $stmtcnt = $pdo->query("SELECT COUNT(*) FROM lab");
-        $row = $stmtcnt->fetch(PDO::FETCH_ASSOC);
-        if($row['COUNT(*)']!=='0')
-        {
-            $i=1;
-            $stmtread = $pdo->query("SELECT * FROM lab order by name");
-            echo ("<table class=\"table table-striped\">
-                <tr> <th>S.no.</th><th>Lab Name</th><th>Department</th> </tr>");
-            while ( $row = $stmtread->fetch(PDO::FETCH_ASSOC) )
-            {
-                echo ("<tr>");
-                echo ("<td>");
-                echo($i);
-                echo("</td>");
-                echo ("<td>");
-                //Ghanta Consistent
-                echo ("<a class='link-black' href='viewpcbylabv2.php?lab=".$row['lab_id'])."'>";
-                echo (htmlentities($row['name']));
-                echo ("</a>");
-                echo ("</td>");
-                echo ("<td>");
-                echo ("<a class='link-black' href='viewpcbydeptv2.php?dept=".$row['department'])."'>";
-                echo (htmlentities($row['department']));
-                echo ("</a>");
-                echo ("</td>");
-                $i++;
-            }
-            echo('</table>');
-        }
     ?>
 
-   </div>
+    <form method="POST" action="gorepairmcv2.php" class="register-form">
+    <div class="form-row">
+    <div class="form-group">
+    <div class="form-input">
+    <label>MAC ADDRESS </label>    
+    <input type="text" value="<?= $mac_addr ?>" class="form-control" disabled>
+    <input type="text" name="mac_addr" hidden value="<?= $mac_addr ?>" >
+    </div>
+
+    <input type="text" name="date" hidden="" value = '<?php echo date('y-m-d') ?>'>
+
+
+    <div class="form-input">
+    <label>Work For</label>
+    <select name=work_for class="form-control" required="">
+        <?php
+            $qr=$pdo->query("SELECT * from member WHERE role = 2");
+            while($row=$qr->fetch(PDO::FETCH_ASSOC))
+            {
+                echo '<option value = '.$row['member_id'].'>';
+                echo ($row['first_name'] . " " . $row['last_name']);
+                echo '</option>';
+            }
+         ?>
+    </select>
+    </div>
+    <div class="form-submit">
+        
+        <input type="submit" value="Assign Job" name="add" id="Submit" class="Submit">
+        <input type="reset" value="Reset" class="submit" id="reset" name="reset" />
+            </div>
+    </form>   </div>
     </div>
 
     <div class="overlay"></div>
