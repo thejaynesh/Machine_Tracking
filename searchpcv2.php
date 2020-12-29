@@ -113,8 +113,8 @@ td:hover{
             <center> 
             <div class="page-header">
        <form method="POST" class="form-inline" style="align-items:center; padding =10">
-       <label id="processor" style="padding =10;">&nbsp&nbsp&nbsp&nbsp Machine No. &nbsp</label>
-       <input type="text" name="mno" id="mno" placeholder="Machine No.">&nbsp
+       <!-- <label id="processor" style="padding =10;">&nbsp&nbsp&nbsp&nbsp Machine No. &nbsp</label>
+       <input type="text" name="mno" id="mno" placeholder="Machine No.">&nbsp -->
             <label id="processor" style="padding =10;">Processor&nbsp</label>
                 <select class="form-control" id="processor" name="processor">
                     <option value="-1">Any</option>
